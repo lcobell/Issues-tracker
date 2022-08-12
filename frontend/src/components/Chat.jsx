@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const Chat = () => {
-  return <div className="App">Chat</div>
-}
+    return <div className="App">Chat</div>;
+};
 
-export default Chat
+export default Chat;
