@@ -9,6 +9,18 @@ import authz from '../middleware/authz.js';
 const users = Express.Router();
 const _ = lodash;
 
+//Getting all users
+users.get('/', async (req, res) => {
+    const users = await User.find().select('-password');
+    const userCount = await User.find().count();
+    if (userCount === 0)
+        return res
+            .status(404)
+            .send('Could not find any users in the database!');
+    res.send(users);
+});
+
+//Create new user
 users.post('/', async (req, res) => {
     //Send appropriate error
     const { error } = validateUser(req.body);
@@ -39,13 +51,13 @@ users.post('/', async (req, res) => {
         .send(_.pick(user, ['firstName', 'lastName', 'email'])); ////using lodash to avoid repeating req.body
 });
 
-//Protected route
+//Protected route - Get current user's info
 users.get('/me', authz, async (req, res) => {
     const user = await User.findById(req.user._id).select('-password');
     res.send(user);
 });
 
-//Protected route
+//Protected route - Delete a user (only an admin is allowed to perform this action)
 users.delete('/:id', [authz, admin], async (req, res) => {
     const user = await User.findByIdAndRemove(req.params.id);
 
