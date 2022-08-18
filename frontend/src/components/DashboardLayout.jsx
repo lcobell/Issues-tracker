@@ -11,7 +11,6 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-
 import Link from '@mui/material/Link';
 //icons
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -21,6 +20,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import PeopleIcon from '@mui/icons-material/People';
 import WorkIcon from '@mui/icons-material/Work';
 
+import { Link as RouterLink } from 'react-router-dom';
 import theme from '../theme';
 // import AccountMenu from './AccountMenu';
 
@@ -37,42 +37,42 @@ function DashboardLayout({ window, children }) {
         <div>
             <Toolbar>
                 <Typography variant="h5" noWrap component="div">
-                    TRACKER
+                    TRACKER Inc
                 </Typography>
             </Toolbar>
             <Divider />
             <List>
-                <ListItem button component={Link} href="/">
+                <ListItem button component={RouterLink} to="/user/dashboard">
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItem>
-                <ListItem button component={Link} href="/AllProjects">
+                <ListItem button component={RouterLink} to="/user/all-projects">
                     <ListItemIcon>
                         <AccountTreeIcon />
                     </ListItemIcon>
                     <ListItemText primary="All Projects" />
                 </ListItem>
-                <ListItem button component={Link} href="/MyTickets">
+                <ListItem button component={RouterLink} to="/user/my-tickets">
                     <ListItemIcon>
                         <ConfirmationNumberIcon />
                     </ListItemIcon>
                     <ListItemText primary="My Tickets" />
                 </ListItem>
-                <ListItem button component={Link} href="/ManageRole">
+                <ListItem button component={RouterLink} to="/user/manage-role">
                     <ListItemIcon>
                         <WorkIcon />
                     </ListItemIcon>
                     <ListItemText primary="Manage Role" />
                 </ListItem>
-                <ListItem button component={Link} href="/MyTeam">
+                <ListItem button component={RouterLink} to="/user/my-team">
                     <ListItemIcon>
                         <PeopleIcon />
                     </ListItemIcon>
                     <ListItemText primary="My Team" />
                 </ListItem>
-                <ListItem button component={Link} href="/Chat">
+                <ListItem button component={RouterLink} to="/user/chat">
                     <ListItemIcon>
                         <ChatIcon />
                     </ListItemIcon>

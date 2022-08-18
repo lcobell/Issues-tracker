@@ -1,14 +1,7 @@
 import React from 'react';
-import SignIn from './SignIn';
-// import SignUp from './SignUp';
 
 function Dashboard() {
-    return (
-        <div>
-            {/* <SignUp /> */}
-            <SignIn />
-        </div>
-    );
+    return <div>Dashboard</div>;
 }
 
 export default Dashboard;

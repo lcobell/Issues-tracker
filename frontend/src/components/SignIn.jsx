@@ -12,7 +12,8 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import theme from '../theme';
 
 function Copyright(props) {
     return (
@@ -25,9 +26,9 @@ function Copyright(props) {
     );
 }
 
-const theme = createTheme();
+function SignIn() {
+    const navigate = useNavigate();
 
-export default function SignIn() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -40,6 +41,7 @@ export default function SignIn() {
             .then((response) => {
                 console.log(response.status);
                 console.log(response.data);
+                navigate('/user/dashboard');
             })
             .catch((err) => {
                 console.error(err.response.data);
@@ -47,18 +49,27 @@ export default function SignIn() {
     };
 
     return (
-        <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
+        <div
+            style={{
+                background: theme.palette.background.gradient,
+                width: '100vw%',
+                height: '100vh',
+            }}
+        >
+            <Container component="main" maxWidth="sm" sx={{ padding: 2 }}>
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: 8,
+                        mt: '25%',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
+                        backgroundColor: 'white',
+                        padding: 2,
+                        borderRadius: 2,
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                    <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
                         <LockOutlinedIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
@@ -100,14 +111,23 @@ export default function SignIn() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{
+                                bgcolor: 'primary.main',
+                                pt: 2,
+                                pb: 2,
+                                mt: 3,
+                                mb: 2,
+                            }}
                         >
                             Sign In
                         </Button>
                         <Grid container>
                             <Grid item>
-                                <Link href="/" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                <Link
+                                    href="/user/create-account"
+                                    variant="body2"
+                                >
+                                    Don't have an account? Sign Up
                                 </Link>
                             </Grid>
                         </Grid>
@@ -115,6 +135,8 @@ export default function SignIn() {
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
-        </ThemeProvider>
+        </div>
     );
 }
+
+export default SignIn;
