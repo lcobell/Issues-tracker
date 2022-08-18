@@ -31,16 +31,21 @@ export default function SignUp() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        axios.post('/api/users', data).then((response) => {
-            console.log(response.status);
-            console.log(response.data);
-        });
-        console.log({
+        const newUser = {
             firstName: data.get('firstName'),
             lastName: data.get('lastName'),
             email: data.get('email'),
             password: data.get('password'),
-        });
+        };
+        axios
+            .post('/api/users', newUser)
+            .then((response) => {
+                console.log(response.status);
+                console.log(response.data);
+            })
+            .catch((err) => {
+                console.error(err.response.data);
+            });
     };
 
     return (

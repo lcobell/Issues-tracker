@@ -31,14 +31,19 @@ export default function SignIn() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        axios.post('/api/authn', data).then((response) => {
-            console.log(response.status);
-            console.log(response.data);
-        });
-        console.log({
+        const user = {
             email: data.get('email'),
             password: data.get('password'),
-        });
+        };
+        axios
+            .post('/api/authn', user)
+            .then((response) => {
+                console.log(response.status);
+                console.log(response.data);
+            })
+            .catch((err) => {
+                console.error(err.response.data);
+            });
     };
 
     return (

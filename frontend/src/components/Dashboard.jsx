@@ -1,10 +1,12 @@
 import React from 'react';
-import SignUp from './SignUp';
+import SignIn from './SignIn';
+// import SignUp from './SignUp';
 
 function Dashboard() {
     return (
         <div>
-            <SignUp />
+            {/* <SignUp /> */}
+            <SignIn />
         </div>
     );
 }
