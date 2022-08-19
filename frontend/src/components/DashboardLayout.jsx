@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -11,7 +11,6 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 //icons
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
@@ -26,8 +25,8 @@ import theme from '../theme';
 
 const drawerWidth = 240;
 
-function DashboardLayout({ window, children }) {
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+function DashboardLayout({ window, user, children }) {
+    const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -90,6 +89,7 @@ function DashboardLayout({ window, children }) {
             <AppBar
                 position="fixed"
                 sx={{
+                    display: 'flex',
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
                     ml: { sm: `${drawerWidth}px` },
                 }}
@@ -105,6 +105,7 @@ function DashboardLayout({ window, children }) {
                         <MenuIcon />
                     </IconButton>
                 </Toolbar>
+                {user ? <span> Welcome {user.firstName}</span> : ''}
                 {/* <AccountMenu /> */}
             </AppBar>
 

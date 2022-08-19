@@ -48,7 +48,7 @@ users.post('/', async (req, res) => {
 
     res.header('x-authn-token', token)
         .header('access-control-expose-headers', 'x-authn-token') //this second header needs to be set, otherwise the client won't be able to see the authn token
-        .send(_.pick(user, ['firstName', 'lastName', 'email'])); ////using lodash to avoid repeating req.body
+        .send(_.pick(user, ['firstName', 'lastName', 'email', 'role'])); ////using lodash to avoid repeating req.body
 });
 
 //Protected route - Get current user's info

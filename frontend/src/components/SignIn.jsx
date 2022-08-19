@@ -27,7 +27,10 @@ function Copyright(props) {
 }
 
 function SignIn() {
+    //Redirect user
     const navigate = useNavigate();
+    // let location = useLocation();
+    // let from = location.state?.from?.pathname || "/user/dashboard";
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -39,9 +42,10 @@ function SignIn() {
         axios
             .post('/api/authn', user)
             .then((response) => {
-                console.log(response.status);
-                console.log(response.data);
+                console.log(response);
+                localStorage.setItem('token', response.data);
                 navigate('/user/dashboard');
+                // navigate(from, { replace: true });
             })
             .catch((err) => {
                 console.error(err.response.data);
@@ -123,10 +127,7 @@ function SignIn() {
                         </Button>
                         <Grid container>
                             <Grid item>
-                                <Link
-                                    href="/user/create-account"
-                                    variant="body2"
-                                >
+                                <Link href="/sign-up" variant="body2">
                                     Don't have an account? Sign Up
                                 </Link>
                             </Grid>

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import jwt_decode from 'jwt-decode';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import DashboardLayout from './components/DashboardLayout';
 import { CssBaseline } from '@mui/material';
 import SignUp from './components/SignUp';
 
 import Dashboard from './components/Dashboard';
-// import { Route, Routes } from 'react-router-dom';
 import AllProjects from './components/projects/AllProjects';
 import Chat from './components/Chat';
 import MyTeam from './components/MyTeam';
@@ -15,16 +15,27 @@ import Page404 from './components/Page404';
 import SignIn from './components/SignIn';
 
 function App() {
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        try {
+            const jwt = localStorage.getItem('token');
+            const user = jwt_decode(jwt);
+            console.log(user);
+            setUser(user);
+        } catch (err) {}
+    }, []);
+
     return (
         <div className="App">
             <CssBaseline />
             <Routes>
-                <Route path="/user/login" element={<SignIn />} />
-                <Route path="/user/create-account" element={<SignUp />} />
+                <Route path="/login" element={<SignIn />} />
+                <Route path="/sign-up" element={<SignUp />} />
                 <Route
                     path="/user/*"
                     element={
-                        <DashboardLayout>
+                        <DashboardLayout user={user}>
                             <Routes>
                                 <Route
                                     path="dashboard"
@@ -49,13 +60,10 @@ function App() {
                         </DashboardLayout>
                     }
                 />
-                <Route
-                    path="/"
-                    element={<Navigate to="/user/login" replace />}
-                />
+                <Route path="/" element={<Navigate to="/login" replace />} />
                 <Route
                     path="/user"
-                    element={<Navigate to="/user/login" replace />}
+                    element={<Navigate to="/login" replace />}
                 />
                 <Route path="*" element={<Page404 />} />
             </Routes>

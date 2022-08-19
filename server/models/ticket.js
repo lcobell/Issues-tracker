@@ -1,13 +1,73 @@
-import mongoose from "mongoose";
-import { Schema } from "mongoose";
+import mongoose from 'mongoose';
+import Joi from 'joi';
 
-const ticketSchema = new Schema({
-  title: String, // Title should be the name of issue
-  description: String, // Description should be the description of  issue
-  status: String, // Status should be received, in progress, or completed
-  date: Date, // Date should be the date the issue was created
-  comments: String,
-  open: Boolean, // Open should be true if the issue is open, false if it is closed
-});
+const { Schema } = mongoose;
 
-export default mongoose.model("Ticket", ticketSchema); // Export the Ticket model so it can be used in other files
+const ticketSchema = new Schema(
+    {
+        submitter: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+        },
+        title: {
+            type: String,
+            required: true,
+            minlength: 5,
+            maxlength: 100,
+        },
+        priority: {
+            type: String,
+            enum: ['low', 'medium', 'high'],
+            default: 'low',
+        },
+        status: {
+            type: String,
+            enum: ['new', 'open', 'in progess', 'resolved'],
+            default: 'new',
+        },
+        // device: {
+        //     type: String,
+        //     enum: ['phone', 'laptop', 'pc', 'tablet'],
+        //     required: true,
+        // },
+        // browser: {
+        //     type: String,
+        //     enum: ['google chrome', 'microsft edge', 'mozilla firefox', 'safari', 'other'],
+        //     required: true,
+        // },
+        description: {
+            type: String,
+            required: true,
+        },
+    },
+    { timestamps: true }
+);
+
+//Ticket Moddel
+const Ticket = mongoose.models.Ticket || mongoose.model('Ticket', ticketSchema);
+
+//User input validation using Joi
+export function validateTicket(ticket) {
+    const schema = Joi.object({
+        // submitter: Joi.string().required(),
+        title: Joi.string().min(5).max(100).required(),
+        priority: Joi.string().valid('low', 'medium', 'high'),
+        status: Joi.string().valid('new', 'open', 'in progess', 'resolved'),
+        description: Joi.string().min(5).required(),
+    });
+
+    return schema.validate(ticket);
+}
+export function validateTicketUpdate(ticket) {
+    const schema = Joi.object({
+        title: Joi.string().min(5).max(100),
+        priority: Joi.string().valid('low', 'medium', 'high'),
+        status: Joi.string().valid('new', 'open', 'in progess', 'resolved'),
+        description: Joi.string().min(10),
+    });
+
+    return schema.validate(ticket);
+}
+
+export default Ticket;

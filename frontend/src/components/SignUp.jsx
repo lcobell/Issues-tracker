@@ -26,7 +26,10 @@ function Copyright(props) {
 }
 
 function SignUp() {
+    //Redirect user
     const navigate = useNavigate();
+    // let location = useLocation();
+    // let from = location.state?.from?.pathname || "/user/dashboard";
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -40,9 +43,13 @@ function SignUp() {
         axios
             .post('/api/users', newUser)
             .then((response) => {
-                console.log(response.status);
-                console.log(response.data);
+                console.log(response);
+                localStorage.setItem(
+                    'token',
+                    response.headers['x-authn-token']
+                );
                 navigate('/user/dashboard');
+                // navigate(from, { replace: true });
             })
             .catch((err) => {
                 console.error(err.response.data);
@@ -141,7 +148,7 @@ function SignUp() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="/user/login" variant="body2">
+                                <Link href="/login" variant="body2">
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>
