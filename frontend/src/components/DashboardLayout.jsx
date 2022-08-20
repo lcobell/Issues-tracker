@@ -20,7 +20,6 @@ import PeopleIcon from '@mui/icons-material/People'
 import WorkIcon from '@mui/icons-material/Work'
 import { Link as RouterLink } from 'react-router-dom'
 import theme from '../theme'
-import SignOut from './SignOut'
 // import AccountMenu from './AccountMenu';
 
 const drawerWidth = 240
@@ -76,11 +75,6 @@ function DashboardLayout({ window, children }) {
             <ChatIcon />
           </ListItemIcon>
           <ListItemText primary="Chat" />
-        </ListItem>
-        <ListItem button component={RouterLink} to="/logout">
-          <ListItemIcon>
-            <SignOut />
-          </ListItemIcon>
         </ListItem>
       </List>
     </div>
