@@ -20,7 +20,7 @@ const app = Express();
 
 //Controllers
 app.get('/', (req, res) => {
-    res.send('hello api');
+    res.send('You have reached Tracker Inc. api');
 });
 
 //Middleware
@@ -28,6 +28,13 @@ app.use(Express.json());
 app.use('/api/users', users); // add new user
 app.use('/api/tickets', tickets);
 app.use('/api/authn', authn); //login
+
+//For deploying the app
+const __dirname = path.resolve();
+app.use(Express.static(path.join(__dirname, '/frontend/build')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/frontend/build/index.html'));
+});
 
 //Port
 const port = process.env.PORT || 8000;

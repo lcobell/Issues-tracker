@@ -36,7 +36,7 @@ function SignIn() {
         if (currentUser) {
             navigate('/user/dashboard', { replace: true });
         }
-    }, []);
+    });
 
     let from = location.state?.from?.pathname || '/user/dashboard';
 
@@ -52,7 +52,7 @@ function SignIn() {
             await authn.login(user.email, user.password);
             navigate(from, { replace: true }); //redirect user
         } catch (error) {
-            console.log(error.response.data);
+            alert(error.response.data);
         }
     };
 

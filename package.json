@@ -1,0 +1,22 @@
+{
+    "name": "issues-tracker",
+    "version": "1.0.0",
+    "description": "The Issue Tracker Application is designed to be a full stack application with an Express backend and a React front-end utilizing the Material UI component library. The purpose of the application is to allow users to track trouble shooting tickets such as ones that would be created and addressed by a software development team. There are two roles for users of this app, an administrator with additional permissions that allow them to manage the team and tickets and a team member that can work on and edit certain properties of tickets such as updating the status and writing comments. Additionally the application will have a built in chat feature for communication amongst team members.",
+    "main": "index.js",
+    "scripts": {
+        "build": "cd server && npm install && cd ../frontend && npm install && npm run build",
+        "start": "node server/index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Julesdj/Issues-tracker.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Julesdj/Issues-tracker/issues"
+    },
+    "homepage": "https://github.com/Julesdj/Issues-tracker#readme"
+}
