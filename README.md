@@ -5,6 +5,9 @@ The Issue Tracker Application is designed to be a full stack application with an
 For this application many technologies were used along with the Express backend from Node.js and the React front-end and the Material-UI library amongs them are:
 - dotenv for storing environment variables - Joi for data validation, Mongoose was utilized for more validation and integrating to our database; MongoDB  - Lodash for its modular methods  - bcrypt for password hashing - JSON Web Token for secure logins and operations - chart js for various graphics used throughout.
 
+##Issues
+This is a large project and as such it is not yet fully functional.  Some key components that were the focus of this project were the ability to securely create a user and sign in.  Once signed in the user is directed to the Tracker Inc. Dashboard where they can access different tabs, the main one being the Dashboard that displays data in a visually appealing way.  When accessing the "All Tickets" view a table of tickets is visible as well as a button that takes the user to the "new-ticket" form. Administrative features to manage team members and assign roles are coming soon as well as an in app chat feature.
+
 ## Get started
 
 1 - Fork and clone the repo to your computer  
@@ -21,7 +24,7 @@ jwtPrivateKey="" create a private key
 
 ## The frontend new routes
 
-1- The main route http://localhost:3000/ is now redirecting to http://localhost:3000/user/login. On successful login, the user is redirected to the dashboard.  
+1- The main route http://localhost:3000/ is now redirecting to . On successful login, the user is redirected to the dashboard.  
 2- You may access the dashboard directly by going to http://localhost:3000/user/dashboard. This route is going to be protected and only made available to authenticated users.  
 3- To access the sign up page visit http://localhost:3000/user/create-account or use the link on the login page
 
