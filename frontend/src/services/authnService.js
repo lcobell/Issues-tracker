@@ -34,8 +34,8 @@ export async function getJwt() {
 
 export default {
     login,
+    loginWithJwt,
     logout,
     getCurrentUser,
-    loginWithJwt,
     getJwt,
 };

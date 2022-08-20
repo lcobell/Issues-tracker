@@ -5,8 +5,8 @@ import Ticket, {
     validateTicketUpdate,
 } from '../models/ticket.js';
 import User from '../models/user.js';
-// import admin from '../middleware/admin.js';
 import authz from '../middleware/authz.js';
+import admin from '../middleware/admin.js';
 
 //Variables
 const tickets = Express.Router();
@@ -39,14 +39,15 @@ tickets.post('/', authz, async (req, res) => {
             title: req.body.title,
             priority: req.body.priority,
             status: req.body.status,
+            device: req.body.device,
+            browser: req.body.browser,
             description: req.body.description,
         });
 
         await ticket.save();
-        console.log(ticket);
         res.send(ticket);
     } catch (error) {
-        res.status(400).send('submitter must be a valid user');
+        res.status(400).send('submitterId must be a valid user ID');
     }
 });
 
@@ -55,7 +56,7 @@ tickets.get('/:id', async (req, res) => {
     try {
         const ticket = await Ticket.findById(req.params.id).populate(
             'submitter',
-            'firstName lastName email'
+            'firstName lastName email role'
         );
         res.send(ticket);
     } catch (error) {
@@ -73,6 +74,8 @@ tickets.put('/:id', async (req, res) => {
             'title',
             'priority',
             'status',
+            'device',
+            'browser',
             'description',
         ]);
         const ticket = await Ticket.findByIdAndUpdate(ticketId, data, {
@@ -85,8 +88,8 @@ tickets.put('/:id', async (req, res) => {
     }
 });
 
-//Protected route
-tickets.delete('/:id', async (req, res) => {
+//Protected route - Only Admins can Delete a ticket
+tickets.delete('/:id', [authz, admin], async (req, res) => {
     try {
         const ticket = await Ticket.findByIdAndRemove(req.params.id);
         res.send('Ticket deleted successfully!');

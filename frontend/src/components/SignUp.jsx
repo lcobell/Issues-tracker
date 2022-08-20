@@ -1,17 +1,16 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import authn from '../services/authnService';
 import theme from '../theme';
 
 function Copyright(props) {
@@ -28,32 +27,33 @@ function Copyright(props) {
 function SignUp() {
     //Redirect user
     const navigate = useNavigate();
-    // let location = useLocation();
-    // let from = location.state?.from?.pathname || "/user/dashboard";
+    let location = useLocation();
 
-    const handleSubmit = (event) => {
+    useEffect(() => {
+        const currentUser = authn.getCurrentUser();
+        if (currentUser) {
+            navigate('/user/dashboard', { replace: true });
+        }
+    }, []);
+
+    let from = location.state?.from?.pathname || '/user/dashboard';
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
+        const formData = new FormData(event.currentTarget);
         const newUser = {
-            firstName: data.get('firstName'),
-            lastName: data.get('lastName'),
-            email: data.get('email'),
-            password: data.get('password'),
+            firstName: formData.get('firstName'),
+            lastName: formData.get('lastName'),
+            email: formData.get('email'),
+            password: formData.get('password'),
         };
-        axios
-            .post('/api/users', newUser)
-            .then((response) => {
-                console.log(response);
-                localStorage.setItem(
-                    'token',
-                    response.headers['x-authn-token']
-                );
-                navigate('/user/dashboard');
-                // navigate(from, { replace: true });
-            })
-            .catch((err) => {
-                console.error(err.response.data);
-            });
+        try {
+            const response = await axios.post('/api/users', newUser);
+            authn.loginWithJwt(response.headers['x-authn-token']);
+            navigate(from, { replace: true }); //redirect user
+        } catch (error) {
+            console.log(error.response.data);
+        }
     };
 
     return (
@@ -84,7 +84,6 @@ function SignUp() {
                     </Typography>
                     <Box
                         component="form"
-                        noValidate
                         onSubmit={handleSubmit}
                         sx={{ mt: 3 }}
                     >

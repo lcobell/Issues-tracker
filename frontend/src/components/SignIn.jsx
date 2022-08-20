@@ -1,5 +1,4 @@
-import * as React from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,7 +11,8 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import authn from '../services/authnService';
 import theme from '../theme';
 
 function Copyright(props) {
@@ -29,27 +29,31 @@ function Copyright(props) {
 function SignIn() {
     //Redirect user
     const navigate = useNavigate();
-    // let location = useLocation();
-    // let from = location.state?.from?.pathname || "/user/dashboard";
+    let location = useLocation();
 
-    const handleSubmit = (event) => {
+    useEffect(() => {
+        const currentUser = authn.getCurrentUser();
+        if (currentUser) {
+            navigate('/user/dashboard', { replace: true });
+        }
+    }, []);
+
+    let from = location.state?.from?.pathname || '/user/dashboard';
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
+        const formData = new FormData(event.currentTarget);
         const user = {
-            email: data.get('email'),
-            password: data.get('password'),
+            email: formData.get('email'),
+            password: formData.get('password'),
         };
-        axios
-            .post('/api/authn', user)
-            .then((response) => {
-                console.log(response);
-                localStorage.setItem('token', response.data);
-                navigate('/user/dashboard');
-                // navigate(from, { replace: true });
-            })
-            .catch((err) => {
-                console.error(err.response.data);
-            });
+
+        try {
+            await authn.login(user.email, user.password);
+            navigate(from, { replace: true }); //redirect user
+        } catch (error) {
+            console.log(error.response.data);
+        }
     };
 
     return (
@@ -82,7 +86,6 @@ function SignIn() {
                     <Box
                         component="form"
                         onSubmit={handleSubmit}
-                        noValidate
                         sx={{ mt: 1 }}
                     >
                         <TextField
