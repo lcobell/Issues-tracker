@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -6,6 +7,8 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
+import { useLocation, useNavigate } from 'react-router-dom';
+import authn from '../../services/authnService';
 
 const priorities = [
     {
@@ -66,6 +69,7 @@ function NewTicket() {
     const [priority, setPiority] = useState('low');
     const [device, setDevice] = useState('');
     const [browser, setBrowser] = useState('');
+    const navigate = useNavigate();
 
     const handlePriorityChange = (event) => {
         setPiority(event.target.value);
@@ -82,6 +86,30 @@ function NewTicket() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
+        const newTicket = {
+            title: formData.get('title'),
+            priority: formData.get('priority'),
+            status: formData.get('status'),
+            device: formData.get('device'),
+            browser: formData.get('browser'),
+            description: formData.get('description'),
+        };
+        try {
+            const token = await authn.getJwt();
+            console.log(token);
+            // await axios.post('/api/tickets', newTicket);
+            axios({
+                method: 'post',
+                url: '/api/tickets',
+                data: newTicket,
+                headers: {
+                    'x-authn-token': token,
+                },
+            });
+            navigate('../all-tickets', { replace: true }); //redirect user
+        } catch (error) {
+            alert(error.response.data);
+        }
     };
     return (
         <div>

@@ -27,9 +27,9 @@ const columns = [
     {
         field: 'fullName',
         headerName: 'Submitter',
-        description: 'This column has a value getter and is not sortable.',
-        sortable: false,
         width: 200,
+        // description: 'This column has a value getter and is not sortable.',
+        // sortable: false,
         // valueGetter: (params) =>
         //     `${params.row.firstName || ''} ${params.row.lastName || ''}`,
     },
