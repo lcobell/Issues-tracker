@@ -6,11 +6,12 @@ import { CssBaseline } from '@mui/material';
 import SignUp from './components/SignUp';
 
 import Dashboard from './components/Dashboard';
-import AllProjects from './components/projects/AllProjects';
+import AllTickets from './components/projects/AllTickets';
 import Chat from './components/Chat';
 import MyTeam from './components/MyTeam';
 import ManageRole from './components/ManageRole';
 import MyTickets from './components/projects/MyTickets';
+import NewTicket from './components/projects/NewTicket';
 import Page404 from './components/Page404';
 import SignIn from './components/SignIn';
 
@@ -42,8 +43,8 @@ function App() {
                                     element={<Dashboard />}
                                 />
                                 <Route
-                                    path="all-projects"
-                                    element={<AllProjects />}
+                                    path="all-tickets"
+                                    element={<AllTickets />}
                                 />
                                 <Route path="chat" element={<Chat />} />
                                 <Route path="my-team" element={<MyTeam />} />
@@ -54,6 +55,10 @@ function App() {
                                 <Route
                                     path="my-tickets"
                                     element={<MyTickets />}
+                                />
+                                <Route
+                                    path="new-ticket"
+                                    element={<NewTicket />}
                                 />
                                 <Route path="*" element={<Page404 />} />
                             </Routes>

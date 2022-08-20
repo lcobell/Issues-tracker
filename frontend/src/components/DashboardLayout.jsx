@@ -36,7 +36,7 @@ function DashboardLayout({ window, user, children }) {
         <div>
             <Toolbar>
                 <Typography variant="h5" noWrap component="div">
-                    TRACKER Inc
+                    TRACKER Inc.
                 </Typography>
             </Toolbar>
             <Divider />
@@ -47,11 +47,11 @@ function DashboardLayout({ window, user, children }) {
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItem>
-                <ListItem button component={RouterLink} to="/user/all-projects">
+                <ListItem button component={RouterLink} to="/user/all-tickets">
                     <ListItemIcon>
                         <AccountTreeIcon />
                     </ListItemIcon>
-                    <ListItemText primary="All Projects" />
+                    <ListItemText primary="All Tickets" />
                 </ListItem>
                 <ListItem button component={RouterLink} to="/user/my-tickets">
                     <ListItemIcon>
@@ -105,7 +105,6 @@ function DashboardLayout({ window, user, children }) {
                         <MenuIcon />
                     </IconButton>
                 </Toolbar>
-                {user ? <span> Welcome {user.firstName}</span> : ''}
                 {/* <AccountMenu /> */}
             </AppBar>
 
